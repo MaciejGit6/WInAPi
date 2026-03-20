@@ -30,7 +30,6 @@ void Calculate()
 
     current = std::to_wstring(stored);
 
-    // Optional: Trim trailing zeros for a cleaner display
     current.erase(current.find_last_not_of(L'0') + 1, std::wstring::npos);
     if (current.back() == L'.') current.pop_back();
 
@@ -41,7 +40,6 @@ void OnButtonClick(int id)
 {
     int index = id - IDC_BTN_BASE;
 
-    // Safety check: ensure the index is within our button array bounds
     if (index < 0 || index >= 18) return;
 
     const wchar_t* labels[] = {
@@ -120,37 +118,35 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 y += 45;
             }
         }
-        return 0; // Handled
+        return 0;
     }
 
     case WM_COMMAND:
     {
         int id = LOWORD(wParam);
 
-        // Only process if the ID belongs to our generated buttons
         if (id >= IDC_BTN_BASE && id < IDC_BTN_BASE + 18)
         {
             OnButtonClick(id);
         }
-        return 0; // Handled
+        return 0;
     }
 
     case WM_DESTROY:
         PostQuitMessage(0);
-        return 0; // Handled
+        return 0;
     }
 
     return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
 
-// Changed WinMain to wWinMain for Unicode compatibility
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
 {
     WNDCLASSW wc = {};
     wc.lpfnWndProc = WndProc;
     wc.hInstance = hInstance;
     wc.lpszClassName = L"CalcClass";
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1); // Added a default background color
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 
     RegisterClassW(&wc);
 
